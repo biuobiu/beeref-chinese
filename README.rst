@@ -36,13 +36,13 @@ BeeRef 中文版 — 简单的参考图像查看器
 稳定版本
 ~~~~~~~~~
 
-从 `最新发布 <https://github.com/biuobiu/beeref中文版/releases>`_ 页面获取适合您操作系统（Windows、Linux、macOS）的文件。不同的 Linux 版本基于不同版本的 Ubuntu 构建，应该也能在其他发行版上运行，但您可能需要尝试哪个版本适用。
+从 `最新发布 <https://github.com/biuobiu/beeref-chinese/releases>`_ 页面获取适合您操作系统（Windows、Linux、macOS）的文件。不同的 Linux 版本基于不同版本的 Ubuntu 构建，应该也能在其他发行版上运行，但您可能需要尝试哪个版本适用。
 
-**Linux 用户**需要在运行前给予文件可执行权限。可选：如果您希望 BeeRef 出现在应用菜单中，请将 `发布部分 <https://github.com/biuobiu/beeref中文版/releases>`_ 中的桌面文件保存到 ``~/.local/share/applications``，保存 `logo <https://raw.githubusercontent.com/rbreu/beeref/main/beeref/assets/logo.png>`_，并调整桌面文件中的路径以匹配您的 BeeRef 安装位置。
+**Linux 用户**需要在运行前给予文件可执行权限。可选：如果您希望 BeeRef 出现在应用菜单中，请将 `发布部分 <https://github.com/biuobiu/beeref-chinese/releases>`_ 中的桌面文件保存到 ``~/.local/share/applications``，保存 `logo <https://raw.githubusercontent.com/rbreu/beeref/main/beeref/assets/logo.png>`_，并调整桌面文件中的路径以匹配您的 BeeRef 安装位置。
 
 **MacOS X 用户**，如果运行 BeeRef 时遇到问题，请查看 `详细说明 <https://beeref.org/macosx-run.html>`_。
 
-通过 `atom feed <https://github.com/biuobiu/beeref中文版/releases.atom>`_ 关注后续发布。
+通过 `atom feed <https://github.com/biuobiu/beeref-chinese/releases.atom>`_ 关注后续发布。
 
 
 开发版本
@@ -50,7 +50,7 @@ BeeRef 中文版 — 简单的参考图像查看器
 
 要获取当前开发版本，您需要有一个工作的 Python 3 环境。运行以下命令安装开发版本::
 
-  pip install git+https://github.com/biuobiu/beeref中文版.git
+  pip install git+https://github.com/biuobiu/beeref-chinese.git
 
 然后运行 ``beeref`` 或 ``beeref filename.bee``。
 
@@ -95,4 +95,4 @@ Linux 和 MacOS：
 开发者说明
 ----------
 
-BeeRef 用 Python 和 PyQt6 编写。更多信息，请参阅 `CONTRIBUTING.rst <https://github.com/biuobiu/beeref中文版/blob/main/CONTRIBUTING.rst>`_。
+BeeRef 用 Python 和 PyQt6 编写。更多信息，请参阅 `CONTRIBUTING.rst <https://github.com/biuobiu/beeref-chinese/blob/main/CONTRIBUTING.rst>`_。
