@@ -13,8 +13,12 @@
 # You should have received a copy of the GNU General Public License
 # along with BeeRef.  If not, see <https://www.gnu.org/licenses/>.
 
-APPNAME = 'BeeRef 中文版'
-APPNAME_FULL = f'{APPNAME} 参考图像查看器'
+# Kept identical to upstream: used for QSettings, the log file name and
+# the sqlite application_id, so settings stay compatible with BeeRef.
+APPNAME = 'BeeRef'
+# Only used for user visible titles, dialogs and the About box.
+APPNAME_ZH = 'BeeRef 中文版'
+APPNAME_FULL = f'{APPNAME_ZH} 参考图像查看器'
 VERSION = '0.3.4-dev'
 WEBSITE = 'https://github.com/rbreu/beeref'
 COPYRIGHT = 'Copyright © 2021-2024 Rebecca Breu'

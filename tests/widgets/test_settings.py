@@ -2,6 +2,8 @@ from unittest.mock import patch
 
 from PyQt6 import QtWidgets
 
+from beeref.i18n import _
+
 from beeref.widgets.settings import (
     ArrangeGapWidget,
     ConfirmCloseUnsavedWidget,
@@ -12,13 +14,13 @@ from beeref.widgets.settings import (
 
 def test_image_storage_format_sets_title_when_not_edited(settings, view):
     widget = ImageStorageFormatWidget()
-    assert widget.title() == 'Image Storage Format:'
+    assert widget.title() == _('Image Storage Format:')
 
 
 def test_image_storage_format_sets_title_when_edited(settings, view):
     settings.setValue('Items/image_storage_format', 'jpg')
     widget = ImageStorageFormatWidget()
-    assert widget.title() == 'Image Storage Format: ✎'
+    assert widget.title() == _('Image Storage Format:') + ' ✎'
 
 
 def test_image_storage_format_selects_radiobox(settings, view):
@@ -37,7 +39,7 @@ def test_image_storage_format_saves_change(settings, view):
     assert widget.buttons['png'].isChecked() is False
     assert widget.buttons['jpg'].isChecked() is True
     assert settings.valueOrDefault('Items/image_storage_format') == 'jpg'
-    assert widget.title() == 'Image Storage Format: ✎'
+    assert widget.title() == _('Image Storage Format:') + ' ✎'
 
 
 def test_image_storage_format_on_restore_defaults(settings, view):
@@ -48,7 +50,7 @@ def test_image_storage_format_on_restore_defaults(settings, view):
     assert widget.buttons['best'].isChecked() is True
     assert widget.buttons['png'].isChecked() is False
     assert widget.buttons['jpg'].isChecked() is False
-    assert widget.title() == 'Image Storage Format:'
+    assert widget.title() == _('Image Storage Format:')
 
 
 def test_arrange_gap_initialises_input_from_settings(settings, view):
@@ -59,13 +61,13 @@ def test_arrange_gap_initialises_input_from_settings(settings, view):
 
 def test_arrange_gap_sets_title_when_not_edited(settings, view):
     widget = ArrangeGapWidget()
-    assert widget.title() == 'Arrange Gap:'
+    assert widget.title() == _('Arrange Gap:')
 
 
 def test_arrange_gap_sets_title_when_edited(settings, view):
     settings.setValue('Items/arrange_gap', 6)
     widget = ArrangeGapWidget()
-    assert widget.title() == 'Arrange Gap: ✎'
+    assert widget.title() == _('Arrange Gap:') + ' ✎'
 
 
 def test_arrange_gap_saves_change(settings, view):
@@ -73,7 +75,7 @@ def test_arrange_gap_saves_change(settings, view):
     widget = ArrangeGapWidget()
     widget.set_value(8)
     assert settings.valueOrDefault('Items/arrange_gap') == 8
-    assert widget.title() == 'Arrange Gap: ✎'
+    assert widget.title() == _('Arrange Gap:') + ' ✎'
 
 
 def test_arrange_gap_on_restore_defaults(settings, view):
@@ -82,7 +84,7 @@ def test_arrange_gap_on_restore_defaults(settings, view):
     settings.setValue('Items/arrange_gap', 0)
     widget.on_restore_defaults()
     assert widget.input.value() == 0
-    assert widget.title() == 'Arrange Gap:'
+    assert widget.title() == _('Arrange Gap:')
 
 
 def test_confirm_closed_initialises_input_from_settings(settings, view):
@@ -93,13 +95,13 @@ def test_confirm_closed_initialises_input_from_settings(settings, view):
 
 def test_confirm_closed_sets_title_when_not_edited(settings, view):
     widget = ConfirmCloseUnsavedWidget()
-    assert widget.title() == 'Confirm when closing an unsaved file:'
+    assert widget.title() == _('Confirm when closing an unsaved file:')
 
 
 def test_confirm_closed_sets_title_when_edited(settings, view):
     settings.setValue('Save/confirm_close_unsaved', False)
     widget = ConfirmCloseUnsavedWidget()
-    assert widget.title() == 'Confirm when closing an unsaved file: ✎'
+    assert widget.title() == _('Confirm when closing an unsaved file:') + ' ✎'
 
 
 def test_confirm_closed_saves_change(settings, view):
@@ -107,7 +109,7 @@ def test_confirm_closed_saves_change(settings, view):
     widget = ConfirmCloseUnsavedWidget()
     widget.set_value(False)
     assert settings.valueOrDefault('Save/confirm_close_unsaved') is False
-    assert widget.title() == 'Confirm when closing an unsaved file: ✎'
+    assert widget.title() == _('Confirm when closing an unsaved file:') + ' ✎'
 
 
 def test_confirm_closed_on_restore_defaults(settings, view):
@@ -116,7 +118,7 @@ def test_confirm_closed_on_restore_defaults(settings, view):
     settings.setValue('Save/confirm_close_unsaved', True)
     widget.on_restore_defaults()
     assert widget.input.isChecked() is True
-    assert widget.title() == 'Confirm when closing an unsaved file:'
+    assert widget.title() == _('Confirm when closing an unsaved file:')
 
 
 @patch('PyQt6.QtWidgets.QMessageBox.question',

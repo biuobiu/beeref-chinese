@@ -4,6 +4,7 @@ from PyQt6 import QtCore, QtWidgets, QtGui
 from PyQt6.QtCore import Qt
 
 from beeref.config import logfile_name
+from beeref.i18n import _
 from beeref.widgets import (
     BeeNotification,
     ChangeOpacityDialog,
@@ -60,7 +61,7 @@ def test_change_opacity_dialog_init(view, item):
     stack = QtGui.QUndoStack()
     dlg = ChangeOpacityDialog(view, [item], stack)
     assert dlg.input.value() == 60
-    assert dlg.label.text() == 'Opacity: 60%'
+    assert dlg.label.text() == _('Opacity: {value}%').format(value=60)
 
 
 def test_change_opacity_dialog_live_update(view, item):
@@ -68,7 +69,7 @@ def test_change_opacity_dialog_live_update(view, item):
     stack = QtGui.QUndoStack()
     dlg = ChangeOpacityDialog(view, [item], stack)
     dlg.input.setValue(30)
-    assert dlg.label.text() == 'Opacity: 30%'
+    assert dlg.label.text() == _('Opacity: {value}%').format(value=30)
     assert item.opacity() == 0.3
 
 

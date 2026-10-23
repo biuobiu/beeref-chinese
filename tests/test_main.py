@@ -2,6 +2,8 @@ from unittest.mock import patch, MagicMock
 
 from PyQt6 import QtCore
 
+from beeref import constants
+
 from beeref.__main__ import BeeRefMainWindow, main
 from beeref.assets import BeeAssets
 from beeref.view import BeeGraphicsView
@@ -10,7 +12,7 @@ from beeref.view import BeeGraphicsView
 @patch('PyQt6.QtWidgets.QWidget.show')
 def test_beeref_mainwindow_init(show_mock, qapp):
     window = BeeRefMainWindow(qapp)
-    assert window.windowTitle() == 'BeeRef'
+    assert window.windowTitle() == constants.APPNAME_ZH
     assert BeeAssets().logo == BeeAssets().logo
     assert window.windowIcon()
     assert window.contentsMargins() == QtCore.QMargins(0, 0, 0, 0)

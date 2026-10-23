@@ -13,6 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with BeeRef.  If not, see <https://www.gnu.org/licenses/>.
 
-from .translator import _
+"""Chinese localisation for BeeRef.
 
-__all__ = ['_']
+Wrap every user visible string with ``_(...)`` and add the translation to
+``zh_CN.py``. Missing keys fall back to the English original, and
+``tests/test_i18n.py`` fails if the dict and the source drift apart.
+"""
+
+from beeref.i18n.translator import _, install_qt_translations
+
+__all__ = ['_', 'install_qt_translations']

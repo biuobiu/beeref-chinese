@@ -144,16 +144,20 @@ class ArrangeDefaultWidget(RadioGroup):
          _('Arrange Horizontal (by filename)')),
         ('vertical', _('Vertical (by filename)'),
          _('Arrange Vertical (by filename)')),
-        ('square', _('Square (by filename)'), _('Arrannge Square (by filename)')))
+        ('square', _('Square (by filename)'),
+         _('Arrannge Square (by filename)')))
 
 
 class ImageStorageFormatWidget(RadioGroup):
     TITLE = _('Image Storage Format:')
-    HELPTEXT = _('How images are stored inside bee files. Changes will only take effect on newly saved images.')
+    HELPTEXT = _(
+        'How images are stored inside bee files. '
+        'Changes will only take effect on newly saved images.')
     KEY = 'Items/image_storage_format'
     OPTIONS = (
         ('best', _('Best Guess'),
-         _('Small images and images with alpha channel are stored as png, everything else as jpg')),
+         _('Small images and images with alpha channel are stored '
+           'as png, everything else as jpg')),
         ('png', _('Always PNG'), _('Lossless, but large bee file')),
         ('jpg', _('Always JPG'),
          _('Small bee file, but lossy and no transparency support')))
@@ -169,7 +173,9 @@ class ArrangeGapWidget(IntegerGroup):
 
 class AllocationLimitWidget(IntegerGroup):
     TITLE = _('Maximum Image Size:')
-    HELPTEXT = _('The maximum image size that can be loaded (in megabytes). Set to 0 for no limitation.')
+    HELPTEXT = _(
+        'The maximum image size that can be loaded (in megabytes). '
+        'Set to 0 for no limitation.')
     KEY = 'Items/image_allocation_limit'
     MIN = 0
     MAX = 10000
@@ -177,7 +183,9 @@ class AllocationLimitWidget(IntegerGroup):
 
 class ConfirmCloseUnsavedWidget(SingleCheckboxGroup):
     TITLE = _('Confirm when closing an unsaved file:')
-    HELPTEXT = _('When about to close an unsaved file, should BeeRef ask for confirmation?')
+    HELPTEXT = _(
+        'When about to close an unsaved file, '
+        'should BeeRef ask for confirmation?')
     LABEL = _('Confirm when closing')
     KEY = 'Save/confirm_close_unsaved'
 
@@ -185,7 +193,7 @@ class ConfirmCloseUnsavedWidget(SingleCheckboxGroup):
 class SettingsDialog(QtWidgets.QDialog):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setWindowTitle(f'{constants.APPNAME} {_("Settings")}')
+        self.setWindowTitle(f'{constants.APPNAME_ZH} {_("Settings")}')
         tabs = QtWidgets.QTabWidget()
 
         # Miscellaneous
@@ -213,7 +221,9 @@ class SettingsDialog(QtWidgets.QDialog):
         buttons = QtWidgets.QDialogButtonBox()
         close_btn = QtWidgets.QPushButton(_('&Close'))
         close_btn.setAutoDefault(False)
-        buttons.addButton(close_btn, QtWidgets.QDialogButtonBox.ButtonRole.RejectRole)
+        buttons.addButton(
+            close_btn,
+            QtWidgets.QDialogButtonBox.ButtonRole.RejectRole)
         buttons.rejected.connect(self.reject)
         reset_btn = QtWidgets.QPushButton(_('&Restore Defaults'))
         reset_btn.setAutoDefault(False)

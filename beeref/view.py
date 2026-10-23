@@ -123,11 +123,11 @@ class BeeGraphicsView(MainControlsMixin,
     def update_window_title(self):
         clean = self.undo_stack.isClean()
         if clean and not self.filename:
-            title = constants.APPNAME
+            title = constants.APPNAME_ZH
         else:
-            name = os.path.basename(self.filename or '[Untitled]')
+            name = os.path.basename(self.filename or _('[Untitled]'))
             clean = '' if clean else '*'
-            title = f'{name}{clean} - {constants.APPNAME}'
+            title = f'{name}{clean} - {constants.APPNAME_ZH}'
         self.parent.setWindowTitle(title)
 
     def on_scene_changed(self, region):
@@ -221,7 +221,8 @@ class BeeGraphicsView(MainControlsMixin,
 
     def on_action_new_scene(self):
         confirm = self.get_confirmation_unsaved_changes(
-            _('There are unsaved changes. Are you sure you want to open a new scene?'))
+            _('There are unsaved changes. '
+              'Are you sure you want to open a new scene?'))
         if confirm:
             self.clear_scene()
 
@@ -409,7 +410,9 @@ class BeeGraphicsView(MainControlsMixin,
             QtWidgets.QMessageBox.warning(
                 self,
                 _('Problem loading file'),
-                _('<p>Problem loading file %s</p><p>Not accessible or not a proper bee file</p>') % filename)
+                _('<p>Problem loading file %s</p>'
+                  '<p>Not accessible or not a proper bee file</p>')
+                % filename)
         else:
             self.filename = filename
             self.scene.add_queued_items()
@@ -417,7 +420,8 @@ class BeeGraphicsView(MainControlsMixin,
 
     def on_action_open_recent_file(self, filename):
         confirm = self.get_confirmation_unsaved_changes(
-            _('There are unsaved changes. Are you sure you want to open a new scene?'))
+            _('There are unsaved changes. '
+              'Are you sure you want to open a new scene?'))
         if confirm:
             self.open_from_file(filename)
 
@@ -429,14 +433,15 @@ class BeeGraphicsView(MainControlsMixin,
         self.worker.progress.connect(self.on_items_loaded)
         self.worker.finished.connect(self.on_loading_finished)
         self.progress = widgets.BeeProgressDialog(
-            f'Loading {filename}',
+            _('Loading {filename}').format(filename=filename),
             worker=self.worker,
             parent=self)
         self.worker.start()
 
     def on_action_open(self):
         confirm = self.get_confirmation_unsaved_changes(
-            _('There are unsaved changes. Are you sure you want to open a new scene?'))
+            _('There are unsaved changes. '
+              'Are you sure you want to open a new scene?'))
         if not confirm:
             return
 
@@ -444,7 +449,7 @@ class BeeGraphicsView(MainControlsMixin,
         filename, f = QtWidgets.QFileDialog.getOpenFileName(
             parent=self,
             caption=_('Open file'),
-            filter=f'{constants.APPNAME} File (*.bee)')
+            filter=f'{constants.APPNAME} 文件 (*.bee)')
         if filename:
             filename = os.path.normpath(filename)
             self.open_from_file(filename)
@@ -455,7 +460,9 @@ class BeeGraphicsView(MainControlsMixin,
             QtWidgets.QMessageBox.warning(
                 self,
                 _('Problem saving file'),
-                _('<p>Problem saving file %s</p><p>File/directory not accessible</p>') % filename)
+                _('<p>Problem saving file %s</p>'
+                  '<p>File/directory not accessible</p>')
+                % filename)
         else:
             self.filename = filename
             self.undo_stack.setClean()
@@ -467,7 +474,7 @@ class BeeGraphicsView(MainControlsMixin,
             fileio.save_bee, filename, self.scene, create_new=create_new)
         self.worker.finished.connect(self.on_saving_finished)
         self.progress = widgets.BeeProgressDialog(
-            f'Saving {filename}',
+            _('Saving {filename}').format(filename=filename),
             worker=self.worker,
             parent=self)
         self.worker.start()
@@ -479,7 +486,7 @@ class BeeGraphicsView(MainControlsMixin,
             parent=self,
             caption=_('Save file'),
             directory=directory,
-            filter=f'{constants.APPNAME} File (*.bee)')
+            filter=f'{constants.APPNAME} 文件 (*.bee)')
         if filename:
             self.do_save(filename, create_new=True)
 
@@ -518,7 +525,7 @@ class BeeGraphicsView(MainControlsMixin,
         self.worker = fileio.ThreadedIO(exporter.export, filename)
         self.worker.finished.connect(self.on_export_finished)
         self.progress = widgets.BeeProgressDialog(
-            f'Exporting {filename}',
+            _('Exporting {filename}').format(filename=filename),
             worker=self.worker,
             parent=self)
         self.worker.start()
@@ -529,7 +536,8 @@ class BeeGraphicsView(MainControlsMixin,
             QtWidgets.QMessageBox.warning(
                 self,
                 _('Problem writing file'),
-                _('<p>Problem writing file %s</p><p>%s</p>') % (filename, err_msg))
+                _('<p>Problem writing file %s</p><p>%s</p>')
+                % (filename, err_msg))
 
     def on_action_export_images(self):
         directory = os.path.dirname(self.filename) if self.filename else None
@@ -548,7 +556,7 @@ class BeeGraphicsView(MainControlsMixin,
             self.on_export_images_file_exists)
         self.worker.finished.connect(self.on_export_finished)
         self.progress = widgets.BeeProgressDialog(
-            f'Exporting to {directory}',
+            _('Exporting to {directory}').format(directory=directory),
             worker=self.worker,
             parent=self)
         self.worker.start()
@@ -559,7 +567,7 @@ class BeeGraphicsView(MainControlsMixin,
             self.exporter.handle_existing = dlg.get_answer()
             directory = self.exporter.dirname
             self.progress = widgets.BeeProgressDialog(
-                f'Exporting to {directory}',
+                _('Exporting to {directory}').format(directory=directory),
                 worker=self.worker,
                 parent=self)
             self.worker.start()
@@ -583,12 +591,14 @@ class BeeGraphicsView(MainControlsMixin,
     def on_action_about(self):
         QtWidgets.QMessageBox.about(
             self,
-            _('About {APPNAME}').format(APPNAME=constants.APPNAME),
-            (f'<h2>{constants.APPNAME} {constants.VERSION}</h2>'
+            _('About {APPNAME}').format(APPNAME=constants.APPNAME_ZH),
+            (f'<h2>{constants.APPNAME_ZH} {constants.VERSION}</h2>'
              f'<p>{constants.APPNAME_FULL}</p>'
              f'<p>{constants.COPYRIGHT}</p>'
              f'<p><a href="{constants.WEBSITE}">'
-             f'Visit the {constants.APPNAME} website</a></p>'))
+             + _('Visit the {APPNAME} website').format(
+                 APPNAME=constants.APPNAME_ZH)
+             + '</a></p>'))
 
     def on_action_debuglog(self):
         widgets.DebugLogDialog(self)
@@ -607,7 +617,8 @@ class BeeGraphicsView(MainControlsMixin,
                 f'<li>{fn}</li>' for fn in errors]
             errornames = '<ul>%s</ul>' % '\n'.join(errornames)
             num = len(errors)
-            msg = _('%s image(s) could not be opened.<br/>') % num
+            msg = _(
+                '%s image(s) could not be opened.<br/>') % num
             QtWidgets.QMessageBox.warning(
                 self,
                 _('Problem loading images'),

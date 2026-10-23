@@ -67,7 +67,7 @@ class BeeProgressDialog(QtWidgets.QProgressDialog):
 class HelpDialog(QtWidgets.QDialog):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setWindowTitle(f'{constants.APPNAME} {_("帮助")}')
+        self.setWindowTitle(f'{constants.APPNAME_ZH} {_("Help")}')
 
         tabs = QtWidgets.QTabWidget()
 
@@ -98,7 +98,7 @@ class HelpDialog(QtWidgets.QDialog):
 class DebugLogDialog(QtWidgets.QDialog):
     def __init__(self, parent):
         super().__init__(parent)
-        self.setWindowTitle(f'{constants.APPNAME} {_("调试日志")}')
+        self.setWindowTitle(f'{constants.APPNAME_ZH} {_("Debug Log")}')
         with open(logfile_name()) as f:
             self.log_txt = f.read()
 
@@ -209,7 +209,8 @@ class ChangeOpacityDialog(QtWidgets.QDialog):
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
 
-        self.label = QtWidgets.QLabel(_('Opacity:'))
+        self.label = QtWidgets.QLabel(
+            _('Opacity: {value}%').format(value=value))
         layout.addWidget(self.label)
 
         self.input = QtWidgets.QSlider(Qt.Orientation.Horizontal)
@@ -230,7 +231,7 @@ class ChangeOpacityDialog(QtWidgets.QDialog):
         self.show()
 
     def on_value_changed(self, value):
-        self.label.setText(f'{_("Opacity")}: {value}%')
+        self.label.setText(_('Opacity: {value}%').format(value=value))
         self.command.opacity = value / 100
         self.command.redo()
 
@@ -304,13 +305,13 @@ class ExportImagesFileExistsDialog(QtWidgets.QDialog):
 
     def __init__(self, parent, filename):
         super().__init__(parent)
-        self.setWindowTitle('File exists')
+        self.setWindowTitle(_('File exists'))
 
         layout = QtWidgets.QVBoxLayout()
         self.setLayout(layout)
 
         label = QtWidgets.QLabel(
-            f'File already exists:\n{filename}')
+            _('File already exists: {filename}').format(filename=filename))
         layout.addWidget(label)
 
         choices = (('skip', 'Skip this file'),
