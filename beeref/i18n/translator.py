@@ -13,9 +13,13 @@
 # You should have received a copy of the GNU General Public License
 # along with BeeRef.  If not, see <https://www.gnu.org/licenses/>.
 
+import logging
+
 from PyQt6.QtCore import QLibraryInfo, QTranslator
 
 from beeref.i18n.zh_CN import zh_CN
+
+logger = logging.getLogger(__name__)
 
 
 class Translator:
@@ -54,4 +58,8 @@ def install_qt_translations(app):
         if qt_translator.load(name, path):
             app.installTranslator(qt_translator)
             installed.append(name)
+    if installed:
+        logger.info(f'Installed Qt translations from {path}: {installed}')
+    else:
+        logger.warning(f'No Qt translations found in {path}')
     return installed
