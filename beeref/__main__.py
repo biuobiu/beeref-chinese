@@ -26,6 +26,7 @@ from PyQt6 import QtCore, QtWidgets
 from beeref import constants
 from beeref.assets import BeeAssets
 from beeref.config import CommandlineArgs, BeeSettings, logfile_name
+from beeref.i18n import install_qt_translations
 from beeref.utils import create_palette_from_dict
 from beeref.view import BeeGraphicsView
 
@@ -113,6 +114,7 @@ def main():
 
     os.environ["QT_DEBUG_PLUGINS"] = "1"
     app = BeeRefApplication(sys.argv)
+    install_qt_translations(app)
     palette = create_palette_from_dict(constants.COLORS)
     app.setPalette(palette)
     bee = BeeRefMainWindow(app)  # NOQA:F841

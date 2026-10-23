@@ -83,6 +83,23 @@ BeeRef 中文版 — 简单的参考图像查看器
 计划在 BeeRef 内部添加导出选项，但上述方法始终独立于 BeeRef 工作。
 
 
+中文化说明
+----------
+
+界面文案集中在 ``beeref/i18n/zh_CN.py``，代码里用 ``_('英文原文')`` 包裹：
+
+* 字典里查不到的键会直接回退显示英文，所以跟随上游更新时不会变成空白。
+* 启动时会安装 Qt 自带的中文翻译（``qtbase_zh_CN``），因此文件对话框和
+  ``QMessageBox`` 的按钮（是/否/取消）也是中文。
+* ``tests/test_i18n.py`` 会检查字典与代码是否失配：漏翻、多余条目、
+  占位符不一致都会让测试失败。
+* 程序的内部标识（QSettings、日志文件名、sqlite ``application_id``）仍然是
+  ``BeeRef``，所以设置目录与英文版一致，切换版本不会丢配置。
+* 帮助 -> 控制 里的手册内容在 ``beeref/documentation/controls.html``。
+
+新增界面文案时，用 ``_()`` 包裹，然后运行 ``pytest tests/test_i18n.py``，它会报出缺少或多余的翻译键。
+
+
 故障排除
 --------
 
@@ -90,7 +107,7 @@ BeeRef 中文版 — 简单的参考图像查看器
 
 Windows：
 
-  C:\Documents and Settings\用户名\Application Data\BeeRef\BeeRef.log
+  %APPDATA%\BeeRef\BeeRef.log
 
 Linux 和 MacOS：
 

@@ -13,23 +13,53 @@
 # You should have received a copy of the GNU General Public License
 # along with BeeRef.  If not, see <https://www.gnu.org/licenses/>.
 
-from .zh_CN import zh_CN
+import logging
+
+from PyQt6.QtCore import QLibraryInfo, QTranslator
+
+from beeref.i18n.zh_CN import zh_CN
+
+logger = logging.getLogger(__name__)
 
 
 class Translator:
-    """翻译器类，用于管理应用程序的多语言支持"""
-    
-    def __init__(self):
-        self.translations = zh_CN
-    
+    """Look up UI strings in a dict, fall back to the English original.
+
+    Keys are the untranslated strings as they appear in the source, so the
+    English UI keeps working if a key is missing.
+    """
+
+    def __init__(self, translations):
+        self.translations = translations
+
     def translate(self, text):
-        """翻译文本"""
         return self.translations.get(text, text)
 
 
-# 创建全局翻译器实例
-translator = Translator()
+translator = Translator(zh_CN)
 
-# 为了方便使用，创建一个全局翻译函数
+
 def _(text):
+    """Translate a UI string."""
     return translator.translate(text)
+
+
+def install_qt_translations(app):
+    """Install Qt's own Chinese translation for standard widgets.
+
+    Without this, buttons of QMessageBox, QFileDialog and QColorDialog
+    ('OK', 'Cancel', 'Yes', 'No', ...) stay English, because those strings
+    live inside Qt and are not covered by our own dict.
+    """
+    path = QLibraryInfo.path(QLibraryInfo.LibraryPath.TranslationsPath)
+    installed = []
+    for name in ('qtbase_zh_CN', 'qt_zh_CN'):
+        qt_translator = QTranslator(app)
+        if qt_translator.load(name, path):
+            app.installTranslator(qt_translator)
+            installed.append(name)
+    if installed:
+        logger.info(f'Installed Qt translations from {path}: {installed}')
+    else:
+        logger.warning(f'No Qt translations found in {path}')
+    return installed

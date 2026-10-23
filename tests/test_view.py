@@ -7,9 +7,10 @@ from unittest.mock import MagicMock, patch, mock_open
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import Qt
 
-from beeref import commands, widgets
+from beeref import commands, constants, widgets
 from beeref.actions import actions
 from beeref.config import logfile_name
+from beeref.i18n import _
 from beeref.items import BeePixmapItem, BeeTextItem
 from beeref.view import BeeGraphicsView
 
@@ -29,7 +30,7 @@ def test_init_without_filenames(open_file_mock, qapp, commandline_args):
     parent = QtWidgets.QMainWindow()
     view = BeeGraphicsView(qapp, parent)
     open_file_mock.assert_not_called()
-    assert view.parent.windowTitle() == 'BeeRef'
+    assert view.parent.windowTitle() == constants.APPNAME_ZH
     del view
 
 
@@ -93,7 +94,7 @@ def test_clear_scene(view, item):
     assert view.transform().isIdentity()
     assert view.filename is None
     view.undo_stack.clear.assert_called_once_with()
-    assert view.parent.windowTitle() == 'BeeRef'
+    assert view.parent.windowTitle() == constants.APPNAME_ZH
 
 
 def test_reset_previous_transform_when_other_item(view):
@@ -788,7 +789,8 @@ def test_on_action_paste_when_empty(
     assert len(view.scene.items()) == 0
     notification_mock.assert_called()
     assert notification_mock.call_args[0][0] == view
-    assert notification_mock.call_args[0][1].startswith('No image data')
+    assert notification_mock.call_args[0][1] == _(
+        'No image data or text in clipboard or image too big')
     clear_mock.assert_not_called()
     view.cancel_active_modes.assert_called_once_with()
 
@@ -1100,28 +1102,31 @@ def test_cancel_sample_color_mode_when_multi_selection(view, item):
 def test_update_window_title_no_changes_no_filename(clear_mock, view):
     view.filename = None
     view.update_window_title()
-    assert view.parent.windowTitle() == 'BeeRef'
+    assert view.parent.windowTitle() == constants.APPNAME_ZH
 
 
 @patch('PyQt6.QtGui.QUndoStack.isClean', return_value=False)
 def test_update_window_title_changes_no_filename(clear_mock, view):
     view.filename = None
     view.update_window_title()
-    assert view.parent.windowTitle() == '[Untitled]* - BeeRef'
+    assert view.parent.windowTitle() == (
+        f'{_("[Untitled]")}* - {constants.APPNAME_ZH}')
 
 
 @patch('PyQt6.QtGui.QUndoStack.isClean', return_value=True)
 def test_update_window_title_no_changes_filename(clear_mock, view):
     view.filename = 'test.bee'
     view.update_window_title()
-    assert view.parent.windowTitle() == 'test.bee - BeeRef'
+    assert view.parent.windowTitle() == (
+        f'test.bee - {constants.APPNAME_ZH}')
 
 
 @patch('PyQt6.QtGui.QUndoStack.isClean', return_value=False)
 def test_update_window_title_changes_filename(clear_mock, view):
     view.filename = 'test.bee'
     view.update_window_title()
-    assert view.parent.windowTitle() == 'test.bee* - BeeRef'
+    assert view.parent.windowTitle() == (
+        f'test.bee* - {constants.APPNAME_ZH}')
 
 
 @patch('beeref.view.BeeGraphicsView.recalc_scene_rect')
